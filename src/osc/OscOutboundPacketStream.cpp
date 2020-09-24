@@ -34,7 +34,7 @@
 	requested that these non-binding requests be included whenever the
 	above license is reproduced.
 */
-#include "OscOutboundPacketStream.h"
+#include "osc/OscOutboundPacketStream.h"
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32)
 #include <malloc.h> // for alloca
@@ -47,7 +47,7 @@
 #include <cstring> // memcpy, memmove, strcpy, strlen
 #include <cstddef> // ptrdiff_t
 
-#include "OscHostEndianness.h"
+#include "osc/OscHostEndianness.h"
 
 #if defined(__BORLANDC__) // workaround for BCB4 release build intrinsics bug
 namespace std {

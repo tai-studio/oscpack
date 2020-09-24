@@ -34,9 +34,9 @@
 	requested that these non-binding requests be included whenever the
 	above license is reproduced.
 */
-#include "OscReceivedElements.h"
+#include "osc/OscReceivedElements.h"
 
-#include "OscHostEndianness.h"
+#include "osc/OscHostEndianness.h"
 
 #include <cstddef> // ptrdiff_t
 

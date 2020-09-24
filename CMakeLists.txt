@@ -1,66 +1,30 @@
-cmake_minimum_required(VERSION 2.6)
-PROJECT(TestOscpack)
+# Works with 3.11 and tested through 3.18
+cmake_minimum_required(VERSION 3.11...3.18)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR})
+# Project name and a few useful settings. Other commands can pick up the results
+project(
+  Oscpack
+  VERSION 1.1.0
+  LANGUAGES CXX)
 
-# separate versions of NetworkingUtils.cpp and UdpSocket.cpp are provided for Win32 and POSIX
-# the IpSystemTypePath selects the correct ones based on the current platform
+# list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-IF(WIN32)
- set(IpSystemTypePath ip/win32)
- set(LIBS ${LIBS} Ws2_32 winmm)
-ELSE(WIN32)
- set(IpSystemTypePath ip/posix)
-ENDIF(WIN32)
+# Only do these if this is the main project, and not if it is included through add_subdirectory
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
 
-ADD_LIBRARY(oscpack 
+  # Let's ensure -std=c++xx instead of -std=g++xx
+  set(CMAKE_CXX_EXTENSIONS OFF)
 
-ip/IpEndpointName.h
-ip/IpEndpointName.cpp
+  # Let's nicely support folders in IDEs
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif()
 
-ip/NetworkingUtils.h
-${IpSystemTypePath}/NetworkingUtils.cpp
+# The compiled library code is here
+add_subdirectory(src)
 
-ip/UdpSocket.h
-${IpSystemTypePath}/UdpSocket.cpp
-
-ip/PacketListener.h
-ip/TimerListener.h
-
-osc/OscTypes.h
-osc/OscTypes.cpp 
-osc/OscHostEndianness.h
-osc/OscException.h
-osc/OscPacketListener.h
-osc/MessageMappingOscPacketListener.h
-osc/OscReceivedElements.h
-osc/OscReceivedElements.cpp
-osc/OscPrintReceivedElements.h
-osc/OscPrintReceivedElements.cpp
-osc/OscOutboundPacketStream.h
-osc/OscOutboundPacketStream.cpp
-
-)
-
-
-ADD_EXECUTABLE(OscUnitTests tests/OscUnitTests.cpp)
-TARGET_LINK_LIBRARIES(OscUnitTests oscpack ${LIBS})
-
-ADD_EXECUTABLE(OscSendTests tests/OscSendTests.cpp)
-TARGET_LINK_LIBRARIES(OscSendTests oscpack ${LIBS})
-
-ADD_EXECUTABLE(OscReceiveTest tests/OscReceiveTest.cpp)
-TARGET_LINK_LIBRARIES(OscReceiveTest oscpack ${LIBS})
-
-
-ADD_EXECUTABLE(OscDump examples/OscDump.cpp)
-TARGET_LINK_LIBRARIES(OscDump oscpack ${LIBS})
-
-ADD_EXECUTABLE(SimpleReceive examples/SimpleReceive.cpp)
-TARGET_LINK_LIBRARIES(SimpleReceive oscpack ${LIBS})
-
-ADD_EXECUTABLE(SimpleSend examples/SimpleSend.cpp)
-TARGET_LINK_LIBRARIES(SimpleSend oscpack ${LIBS})
+# The executable code is here
+add_subdirectory(apps)
 
 
 if(MSVC)

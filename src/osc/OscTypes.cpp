@@ -34,7 +34,7 @@
 	requested that these non-binding requests be included whenever the
 	above license is reproduced.
 */
-#include "OscTypes.h"
+#include "osc/OscTypes.h"
 
 namespace osc{
 
