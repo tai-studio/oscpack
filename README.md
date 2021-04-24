@@ -1,3 +1,6 @@
+This fork adapts the existing codebase to comply with modern cmake standards. The directory structure is changed accordingly.
+
+
 ## oscpack -- Open Sound Control packet manipulation library
 A simple C++ library for packing and unpacking OSC packets.
 http://www.rossbencina.com/code/oscpack
